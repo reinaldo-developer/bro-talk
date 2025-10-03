@@ -21,3 +21,10 @@ def transcribe(audio_filename) -> str:
     except Exception as e:
         print(f"Ocorreu um erro na transcrição: {e}")
         return ""
+    
+if __name__ == '__main__':
+    from audio_recorder import record_audio
+    audio_to_conversion = record_audio(duration_seconds=4)
+    print(f"file_path={audio_to_conversion}")
+    transcription = transcribe(audio_to_conversion)
+    print(transcription)
