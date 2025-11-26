@@ -1,5 +1,5 @@
 from gtts import gTTS
-from playsound import playsound
+from playsound3 import playsound
 import os
 
 temp_audio_file = "temporary_audio_conversion_file.mp3"
