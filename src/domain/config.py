@@ -13,6 +13,13 @@ class AudioConfig:
 
 
 @dataclass(frozen=True)
+class LLMConfig:
+    MODEL: str = "llama3"
+    TIMEOUT: int = 30
+    STREAM: bool = True
+
+
+@dataclass(frozen=True)
 class AppConfig:
     EXIT_COMMAND: str = "sair"
     DEFAULT_LLM_MODEL: str = "llama3"
