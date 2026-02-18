@@ -4,7 +4,7 @@ from src.domain.config import AudioConfig
 
 
 class WebRTCVAD(VADStrategy):
-    def __init__(self):
+    def __init__(self) -> None:
         self._model = webrtcvad.Vad(AudioConfig.VAD_AGGRESSIVENESS)
 
     def is_speech(self, frame: bytes, sample_rate: int) -> bool:

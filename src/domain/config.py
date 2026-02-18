@@ -9,6 +9,7 @@ class AudioConfig:
     FORMAT: int = 8
     SILENCE_THRESHOLD_MS: int = 1000
     VAD_AGGRESSIVENESS: int = 3
+    BEAM_SIZE: int = 5
 
 
 @dataclass(frozen=True)
@@ -16,3 +17,4 @@ class AppConfig:
     EXIT_COMMAND: str = "sair"
     DEFAULT_LLM_MODEL: str = "llama3"
     DEFAULT_VOICE: str = "pt_BR-faber-medium"
+    LANGUAGE: str = "pt"

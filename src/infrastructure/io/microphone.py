@@ -1,4 +1,5 @@
 import pyaudio
+from pyaudio import Stream
 from typing import Iterator, List
 from src.interfaces.audio_input import AudioInputStrategy
 from src.interfaces.vad import VADStrategy
@@ -11,11 +12,11 @@ class MicrophoneInput(AudioInputStrategy):
     ):
         self._audio_interface = pyaudio.PyAudio()
         self._input_device_index = input_device_index
-        self._stream = None
+        self._stream: Stream | None = None
         self._vad_strategy = vad_strategy
         self._is_listening = False
         self._frames: List[bytes] = []
-    
+
     def start_stream(self) -> None:
         self._stream = self._audio_interface.open(
             format=AudioConfig.FORMAT,
@@ -26,14 +27,15 @@ class MicrophoneInput(AudioInputStrategy):
             input_device_index=self._input_device_index,
         )
         self._is_listening = True
-    
+
     def stop_stream(self) -> None:
         self._is_listening = False
         if self._stream:
             self._stream.stop_stream()
             self._stream.close()
+            self._stream = None
         self._audio_interface.terminate()
-    
+
     def listen(self) -> Iterator[bytes]:
         silence_counter = 0
         frames_per_second = AudioConfig.SAMPLE_RATE / AudioConfig.CHUNK_SIZE
@@ -44,6 +46,8 @@ class MicrophoneInput(AudioInputStrategy):
 
         if not self._stream or not self._stream.is_active():
             self.start_stream()
+
+        assert self._stream is not None
 
         while self._is_listening:
             try:
@@ -62,7 +66,7 @@ class MicrophoneInput(AudioInputStrategy):
                     self._frames.append(chunk)
 
                     if silence_counter >= silence_threshold_frames:
-                        yield b"".join(self._frames[: -silence_threshold_frames])
+                        yield b"".join(self._frames[:-silence_threshold_frames])
                         self._frames = []
                         has_speech_started = False
                         silence_counter = 0
