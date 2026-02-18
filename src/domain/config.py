@@ -10,6 +10,7 @@ class AudioConfig:
     SILENCE_THRESHOLD_MS: int = 1000
     VAD_AGGRESSIVENESS: int = 3
     BEAM_SIZE: int = 5
+    OUTPUT_SAMPLE_RATE: int = 22050
 
 
 @dataclass(frozen=True)
@@ -17,6 +18,13 @@ class LLMConfig:
     MODEL: str = "llama3"
     TIMEOUT: int = 30
     STREAM: bool = True
+
+
+@dataclass(frozen=True)
+class TTSConfig:
+    COMMAND: str = "espeak-ng"
+    VOICE: str = "pt-br"
+    SPEED: int = 160
 
 
 @dataclass(frozen=True)

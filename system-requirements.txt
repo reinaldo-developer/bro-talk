@@ -1,3 +1,4 @@
 #### Installed packages: ####
 
 portaudio
+espeak-ng
